@@ -16,5 +16,9 @@ RUN dotnet publish -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+RUN apt-get update 
+RUN apt-get install libgdiplus
+RUN cd /usr/lib
+RUN ln -s libgdiplus.so gdiplus.dll
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "FileUpload.dll"]
