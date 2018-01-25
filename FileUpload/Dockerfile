@@ -1,24 +1,8 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/aspnetcore:2.0
 WORKDIR /app
 EXPOSE 80
-
-FROM microsoft/aspnetcore-build:2.0 AS build
-WORKDIR /src
-COPY *.sln ./
-COPY FileUpload/FileUpload.csproj FileUpload/
-RUN dotnet restore
-COPY . .
-WORKDIR /src/FileUpload
-RUN dotnet build -c Release -o /app
-
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
-
-FROM base AS final
-WORKDIR /app
-RUN apt-get update 
-RUN apt-get install libgdiplus
-RUN cd /usr/lib
-RUN ln -s libgdiplus.so gdiplus.dll
-COPY --from=publish /app .
+RUN ls
+COPY  publish  .
+COPY sources.list /etc/apt/sources.list
+RUN apt-get update && apt-get -y install libgdiplus && apt-get -y install fonts-wqy-zenhei && apt-get clean &&  fc-cache -fv
 ENTRYPOINT ["dotnet", "FileUpload.dll"]

@@ -8,6 +8,8 @@ using FileUpload.Models;
 using System.DrawingCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Text;
+using System.DrawingCore.Text;
 
 namespace FileUpload.Controllers
 {
@@ -25,13 +27,18 @@ namespace FileUpload.Controllers
 
         private void GenerateImage(string path)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
 
             int tWidth = 1240;
-            int tHeigh = 10;
+            int tHeigh = 33;
             int rHeigh = 33;
-            Font fTitle = new Font("宋体", 16);
+
+     
+            Font fTitle = new Font("文泉驿正黑", 16);
             int titleHeight = 20;
-            Font fText = new Font("宋体", 9);
+            Font fText = new Font("WenQuanYi Zen Hei", 9);
             int x = 0;
             int y = 0;
             int top = 30;
@@ -44,77 +51,79 @@ namespace FileUpload.Controllers
             Graphics gh = Graphics.FromImage(bm);
             gh.Clear(Color.White);
 
-            #region MyRegion
+            for (int i = 0; i < 50; i++)
+            {
+                #region MyRegion
 
-            SizeF sTitle = gh.MeasureString("工资表", fTitle);
-            Point pTitle = new Point((tWidth - (int)sTitle.Width) / 2, y + top);
-            y += top; // 1
-            gh.DrawString("工资表", fTitle, Brushes.Black, pTitle.X, y);
+                SizeF sTitle = gh.MeasureString("工资表", fTitle);
+                Point pTitle = new Point((tWidth - (int)sTitle.Width) / 2, y + top);
+                y += top; // 1
+                gh.DrawString("工资表", fTitle, Brushes.Black, pTitle.X, y);
 
-            y += cellText + titleHeight;
-            gh.DrawLine(Pens.Black, new Point(left, y), new Point(tWidth - left, y));
+                y += cellText + titleHeight;
+                gh.DrawLine(Pens.Black, new Point(left, y), new Point(tWidth - left, y));
 
-            y += top;
-            x = left;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 45, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("序号", fText, Brushes.Black, fcelltextleft, y + cellTextTop);
-            x += 45;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 120, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("姓名", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 120;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 130, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("身份证号", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 130;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("基本工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("奖金", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("罚款", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("应付工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("扣缴社保", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("扣缴公积金", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("应纳税额", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("个税", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("实发工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 95;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 70, y));
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
-            gh.DrawString("签字", fText, Brushes.Black, x + cellText, y + cellTextTop);
-            x += 70;
-            gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                y += top;
+                x = left;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 45, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("序号", fText, Brushes.Black, fcelltextleft, y + cellTextTop);
+                x += 45;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 120, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("姓名", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 120;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 130, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("身份证号", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 130;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("基本工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("奖金", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("罚款", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("应付工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("扣缴社保", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("扣缴公积金", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("应纳税额", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("个税", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 95, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("实发工资", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 95;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x + 70, y));
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
+                gh.DrawString("签字", fText, Brushes.Black, x + cellText, y + cellTextTop);
+                x += 70;
+                gh.DrawLine(Pens.Black, new Point(x, y), new Point(x, y + rHeigh));
 
-            y += rHeigh;
-            gh.DrawLine(Pens.Black, new Point(left, y), new Point(x, y));
+                y += rHeigh;
+                gh.DrawLine(Pens.Black, new Point(left, y), new Point(x, y));
 
-            #endregion MyRegion
-
+                #endregion MyRegion
+            }
             Stream ms = new MemoryStream();
             try
             {
@@ -130,13 +139,16 @@ namespace FileUpload.Controllers
                 gh.Dispose();
                 bm.Dispose();
             }
+            sw.Stop();
+            Console.WriteLine("时间:" + sw.ElapsedMilliseconds);
 
         }
 
         public IActionResult About()
         {
-            GenerateImage(Path.Combine(_hostingEnvironment.WebRootPath, "images", "1.jpg"));
-            ViewBag.Img = "/images/1.jpg";
+            var filename = Guid.NewGuid().ToString() + ".jpg";
+            GenerateImage(Path.Combine(_hostingEnvironment.WebRootPath, "images", filename));
+            ViewBag.Img = $"/images/{filename}";
             ViewData["Message"] = "Your application description page.";
 
             return View();
